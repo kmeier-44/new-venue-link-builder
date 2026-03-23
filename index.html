@@ -12,7 +12,7 @@
       background: #fff;
       color: #1a1a2e;
       padding: 32px 24px;
-      max-width: 860px;
+      max-width: 960px;
       margin: 0 auto;
       line-height: 1.5;
     }
@@ -30,37 +30,35 @@
       margin-bottom: 24px;
     }
 
-    .section-header {
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 700px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .col-header {
       display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 4px;
     }
 
-    .section-header h2 {
-      font-size: 0.95rem;
+    .col-header h2 {
+      font-size: 0.9rem;
       font-weight: 700;
       color: #1a1a2e;
     }
 
-    .section-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: #00A82C;
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .section-desc {
-      font-size: 0.78rem;
+    .col-desc {
+      font-size: 0.75rem;
       color: #6b7280;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       line-height: 1.5;
     }
 
@@ -68,12 +66,11 @@
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 14px;
     }
 
     .field {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .field:last-child {
@@ -82,68 +79,192 @@
 
     label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: #374151;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .helper {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #9ca3af;
       margin-bottom: 4px;
     }
 
     .tip {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #00A82C;
       background: rgba(0, 168, 44, 0.06);
       border: 1px solid rgba(0, 168, 44, 0.15);
       border-radius: 6px;
-      padding: 8px 10px;
+      padding: 7px 10px;
       margin-top: 8px;
       line-height: 1.5;
     }
 
-    input[type="text"],
-    select {
+    input[type="text"] {
       width: 100%;
-      padding: 8px 12px;
+      padding: 7px 10px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #1a1a2e;
       background: #fff;
       transition: border-color 0.2s;
     }
 
-    input[type="text"]:focus,
-    select:focus {
+    input[type="text"]:focus {
       outline: none;
       border-color: #00A82C;
       box-shadow: 0 0 0 3px rgba(0, 168, 44, 0.1);
     }
 
-    select[multiple] {
-      height: auto;
-      min-height: 80px;
-      padding: 4px;
+    /* Searchable multi-select dropdown */
+    .multiselect {
+      position: relative;
     }
 
-    select[multiple] option {
-      padding: 6px 8px;
+    .multiselect__input {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #1a1a2e;
+      background: #fff;
+      cursor: text;
+    }
+
+    .multiselect__input:focus {
+      outline: none;
+      border-color: #00A82C;
+      box-shadow: 0 0 0 3px rgba(0, 168, 44, 0.1);
+    }
+
+    .multiselect__dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .multiselect--open .multiselect__dropdown {
+      display: block;
+    }
+
+    .multiselect--open .multiselect__input {
+      border-radius: 8px 8px 0 0;
+    }
+
+    .multiselect__group {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 8px 10px 3px;
+    }
+
+    .multiselect__option {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.1s;
+    }
+
+    .multiselect__option:hover {
+      background: #f3f4f6;
+    }
+
+    .multiselect__option--selected {
+      background: rgba(0, 168, 44, 0.08);
+    }
+
+    .multiselect__option--selected:hover {
+      background: rgba(0, 168, 44, 0.12);
+    }
+
+    .multiselect__check {
+      width: 16px;
+      height: 16px;
       border-radius: 4px;
+      border: 1.5px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
     }
 
-    select[multiple] option:checked {
+    .multiselect__option--selected .multiselect__check {
       background: #00A82C;
-      color: white;
+      border-color: #00A82C;
+    }
+
+    .multiselect__check::after {
+      content: '';
+      display: none;
+      width: 4px;
+      height: 8px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translateY(-1px);
+    }
+
+    .multiselect__option--selected .multiselect__check::after {
+      display: block;
+    }
+
+    .multiselect__option--hidden {
+      display: none;
+    }
+
+    .multiselect__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .multiselect__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: #00A82C;
+      color: #fff;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .multiselect__tag-remove {
+      cursor: pointer;
+      font-size: 0.8rem;
+      line-height: 1;
+      opacity: 0.8;
+    }
+
+    .multiselect__tag-remove:hover {
+      opacity: 1;
     }
 
     .divider {
       border: none;
       border-top: 1px solid #e5e7eb;
-      margin: 24px 0;
+      margin: 20px 0;
     }
 
     .output-section {
@@ -151,7 +272,7 @@
       border: 1px solid #2d2d44;
       border-radius: 12px;
       padding: 16px;
-      margin-top: 8px;
+      margin-top: 20px;
     }
 
     .output-label {
@@ -165,7 +286,7 @@
 
     .url-display {
       font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: rgba(255,255,255,0.85);
       word-break: break-all;
       background: rgba(255,255,255,0.06);
@@ -238,15 +359,15 @@
 
     .toggle-row {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       flex-wrap: wrap;
     }
 
     .toggle-btn {
-      padding: 5px 11px;
+      padding: 4px 10px;
       border: 1px solid #d1d5db;
       border-radius: 20px;
-      font-size: 0.73rem;
+      font-size: 0.7rem;
       cursor: pointer;
       background: #fff;
       color: #374151;
@@ -264,10 +385,10 @@
     }
 
     .optional-badge {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: #9ca3af;
       font-weight: 400;
-      margin-left: 4px;
+      margin-left: 3px;
     }
   </style>
 </head>
@@ -276,147 +397,88 @@
 <h1>New Venue Openings Link Builder</h1>
 <p class="subtitle">Build a personalised or filtered link to share with contacts.</p>
 
-<!-- SECTION 1: PERSONALISATION -->
-<div class="section-header">
-  <span class="section-number">1</span>
-  <h2>Personalise for a contact</h2>
-</div>
-<p class="section-desc">
-  Adding a contact ID personalises the page for that specific contact. It filters venues to their preferred cities and event types, and shows your name and meeting link on the CTA. <strong>This is the recommended approach for outreach emails.</strong>
-</p>
-<div class="section-box">
-  <div class="field">
-    <label for="contactId">HubSpot Contact ID</label>
-    <div class="helper">Find this in the HubSpot URL when viewing the contact: app.hubspot.com/contacts/4053273/record/0-1/<strong>138785001</strong></div>
-    <input type="text" id="contactId" placeholder="e.g. 138785001" oninput="buildUrl()">
-  </div>
-  <div class="tip">
-    <strong>Tip:</strong> If you add a Contact ID, you usually don't need to set any filters below — the page will automatically show venues matching the contact's preferences in HubSpot.
-  </div>
-</div>
+<div class="two-col">
 
-<!-- SECTION 2: FILTERS -->
-<div class="section-header">
-  <span class="section-number">2</span>
-  <h2>Filter venues <span class="optional-badge">optional</span></h2>
-</div>
-<p class="section-desc">
-  Use these to narrow the results. Filters <strong>override</strong> the contact's preferences if a Contact ID is set — so only add them if the contact asked about something specific (e.g. "show me new conference venues in Manchester").
-  Without a Contact ID, the page defaults to London.
-</p>
-<div class="section-box">
-  <div class="field">
-    <label for="citySelect">Cities</label>
-    <div class="helper">Hold Cmd/Ctrl to select multiple. Only venues in these cities will show.</div>
-    <select id="citySelect" multiple onchange="buildUrl()">
-      <optgroup label="United Kingdom">
-        <option value="london:united kingdom">London</option>
-        <option value="manchester:united kingdom">Manchester</option>
-        <option value="birmingham:united kingdom">Birmingham</option>
-        <option value="edinburgh:united kingdom">Edinburgh</option>
-        <option value="glasgow:united kingdom">Glasgow</option>
-        <option value="leeds:united kingdom">Leeds</option>
-        <option value="bristol:united kingdom">Bristol</option>
-        <option value="liverpool:united kingdom">Liverpool</option>
-        <option value="oxford:united kingdom">Oxford</option>
-        <option value="cambridge:united kingdom">Cambridge</option>
-        <option value="belfast:united kingdom">Belfast</option>
-        <option value="brighton:united kingdom">Brighton</option>
-        <option value="cardiff:united kingdom">Cardiff</option>
-      </optgroup>
-      <optgroup label="Europe">
-        <option value="paris:france">Paris</option>
-        <option value="amsterdam:netherlands">Amsterdam</option>
-        <option value="berlin:germany">Berlin</option>
-        <option value="munich:germany">Munich</option>
-        <option value="barcelona:spain">Barcelona</option>
-        <option value="madrid:spain">Madrid</option>
-        <option value="milan:italy">Milan</option>
-        <option value="dublin:ireland">Dublin</option>
-      </optgroup>
-      <optgroup label="Middle East">
-        <option value="dubai:united arab emirates">Dubai</option>
-        <option value="abu dhabi:united arab emirates">Abu Dhabi</option>
-        <option value="riyadh:saudi arabia">Riyadh</option>
-      </optgroup>
-      <optgroup label="Asia Pacific">
-        <option value="singapore:singapore">Singapore</option>
-        <option value="sydney:australia">Sydney</option>
-        <option value="melbourne:australia">Melbourne</option>
-      </optgroup>
-      <optgroup label="North America">
-        <option value="new york:united states">New York</option>
-        <option value="los angeles:united states">Los Angeles</option>
-        <option value="chicago:united states">Chicago</option>
-        <option value="san francisco:united states">San Francisco</option>
-        <option value="miami:united states">Miami</option>
-        <option value="toronto:canada">Toronto</option>
-      </optgroup>
-    </select>
-  </div>
+  <!-- LEFT COLUMN -->
+  <div>
+    <div class="col-header"><h2>Personalisation & Display</h2></div>
+    <div class="col-desc">Add a contact ID to personalise the page with their preferences and your meeting link. This is the recommended approach for outreach.</div>
+    <div class="section-box">
+      <div class="field">
+        <label for="contactId">HubSpot Contact ID</label>
+        <div class="helper">From the URL: .../record/0-1/<strong>138785001</strong></div>
+        <input type="text" id="contactId" placeholder="e.g. 138785001" oninput="buildUrl()">
+        <div class="tip"><strong>Tip:</strong> With a Contact ID you usually don't need filters — the page auto-filters to the contact's preferences.</div>
+      </div>
 
-  <div class="field">
-    <label>Event Type <span class="optional-badge">only show venues suited for these events</span></label>
-    <div class="toggle-row" id="eventTypes">
-      <button class="toggle-btn" data-value="conferences" onclick="toggleBtn(this)">Conferences</button>
-      <button class="toggle-btn" data-value="corporate parties" onclick="toggleBtn(this)">Corporate Parties</button>
-      <button class="toggle-btn" data-value="private dining" onclick="toggleBtn(this)">Private Dining</button>
-      <button class="toggle-btn" data-value="product launches" onclick="toggleBtn(this)">Product Launches</button>
-      <button class="toggle-btn" data-value="team building" onclick="toggleBtn(this)">Team Building</button>
-      <button class="toggle-btn" data-value="christmas parties" onclick="toggleBtn(this)">Christmas Parties</button>
-      <button class="toggle-btn" data-value="summer parties" onclick="toggleBtn(this)">Summer Parties</button>
-      <button class="toggle-btn" data-value="awards ceremonies" onclick="toggleBtn(this)">Awards Ceremonies</button>
-      <button class="toggle-btn" data-value="networking events" onclick="toggleBtn(this)">Networking Events</button>
-      <button class="toggle-btn" data-value="workshops" onclick="toggleBtn(this)">Workshops</button>
-      <button class="toggle-btn" data-value="away days" onclick="toggleBtn(this)">Away Days</button>
-      <button class="toggle-btn" data-value="meetings" onclick="toggleBtn(this)">Meetings</button>
-      <button class="toggle-btn" data-value="exhibitions" onclick="toggleBtn(this)">Exhibitions</button>
+      <div class="field">
+        <label>Group By <span class="optional-badge">optional</span></label>
+        <div class="helper">Groups venues together with a dot navigation.</div>
+        <div class="toggle-row" id="sortBy">
+          <button class="toggle-btn" data-value="" onclick="toggleSortBtn(this)">None</button>
+          <button class="toggle-btn" data-value="city" onclick="toggleSortBtn(this)">City</button>
+          <button class="toggle-btn" data-value="venue_type" onclick="toggleSortBtn(this)">Venue Type</button>
+          <button class="toggle-btn" data-value="area" onclick="toggleSortBtn(this)">Area</button>
+        </div>
+        <div class="tip" style="margin-top:8px"><strong>When to use:</strong> City for multi-city links. Area within a single city. Venue Type for mixed types.</div>
+      </div>
     </div>
   </div>
 
-  <div class="field">
-    <label>Venue Type <span class="optional-badge">only show these types of venues</span></label>
-    <div class="toggle-row" id="venueTypes">
-      <button class="toggle-btn" data-value="hotel" onclick="toggleBtn(this)">Hotel</button>
-      <button class="toggle-btn" data-value="restaurant & bar" onclick="toggleBtn(this)">Restaurant & Bar</button>
-      <button class="toggle-btn" data-value="unique venue" onclick="toggleBtn(this)">Unique Venue</button>
-      <button class="toggle-btn" data-value="conference centre" onclick="toggleBtn(this)">Conference Centre</button>
-      <button class="toggle-btn" data-value="rooftop venue" onclick="toggleBtn(this)">Rooftop Venue</button>
-      <button class="toggle-btn" data-value="gallery & museum" onclick="toggleBtn(this)">Gallery & Museum</button>
-      <button class="toggle-btn" data-value="exhibition space" onclick="toggleBtn(this)">Exhibition Space</button>
-      <button class="toggle-btn" data-value="co-working & meeting space" onclick="toggleBtn(this)">Co-Working</button>
-      <button class="toggle-btn" data-value="outdoor venue" onclick="toggleBtn(this)">Outdoor Venue</button>
-      <button class="toggle-btn" data-value="theatre & cinema" onclick="toggleBtn(this)">Theatre & Cinema</button>
-      <button class="toggle-btn" data-value="private members club" onclick="toggleBtn(this)">Private Members Club</button>
-      <button class="toggle-btn" data-value="sports venue" onclick="toggleBtn(this)">Sports Venue</button>
+  <!-- RIGHT COLUMN -->
+  <div>
+    <div class="col-header"><h2>Filters <span class="optional-badge">override contact preferences</span></h2></div>
+    <div class="col-desc">Only add filters if the contact asked about something specific. These override their HubSpot preferences.</div>
+    <div class="section-box">
+      <div class="field">
+        <label>Cities</label>
+        <div class="multiselect" id="cityMultiselect">
+          <input type="text" class="multiselect__input" placeholder="Search cities..." oninput="filterCities(this.value)" onfocus="openCityDropdown()" id="citySearchInput">
+          <div class="multiselect__dropdown" id="cityDropdown"></div>
+          <div class="multiselect__tags" id="cityTags"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Event Type</label>
+        <div class="toggle-row" id="eventTypes">
+          <button class="toggle-btn" data-value="conferences" onclick="toggleBtn(this)">Conferences</button>
+          <button class="toggle-btn" data-value="corporate parties" onclick="toggleBtn(this)">Corporate Parties</button>
+          <button class="toggle-btn" data-value="private dining" onclick="toggleBtn(this)">Private Dining</button>
+          <button class="toggle-btn" data-value="product launches" onclick="toggleBtn(this)">Product Launches</button>
+          <button class="toggle-btn" data-value="team building" onclick="toggleBtn(this)">Team Building</button>
+          <button class="toggle-btn" data-value="christmas parties" onclick="toggleBtn(this)">Christmas Parties</button>
+          <button class="toggle-btn" data-value="summer parties" onclick="toggleBtn(this)">Summer Parties</button>
+          <button class="toggle-btn" data-value="awards ceremonies" onclick="toggleBtn(this)">Awards Ceremonies</button>
+          <button class="toggle-btn" data-value="networking events" onclick="toggleBtn(this)">Networking Events</button>
+          <button class="toggle-btn" data-value="workshops" onclick="toggleBtn(this)">Workshops</button>
+          <button class="toggle-btn" data-value="away days" onclick="toggleBtn(this)">Away Days</button>
+          <button class="toggle-btn" data-value="meetings" onclick="toggleBtn(this)">Meetings</button>
+          <button class="toggle-btn" data-value="exhibitions" onclick="toggleBtn(this)">Exhibitions</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Venue Type</label>
+        <div class="toggle-row" id="venueTypes">
+          <button class="toggle-btn" data-value="hotel" onclick="toggleBtn(this)">Hotel</button>
+          <button class="toggle-btn" data-value="restaurant & bar" onclick="toggleBtn(this)">Restaurant & Bar</button>
+          <button class="toggle-btn" data-value="unique venue" onclick="toggleBtn(this)">Unique Venue</button>
+          <button class="toggle-btn" data-value="conference centre" onclick="toggleBtn(this)">Conference Centre</button>
+          <button class="toggle-btn" data-value="rooftop venue" onclick="toggleBtn(this)">Rooftop Venue</button>
+          <button class="toggle-btn" data-value="gallery & museum" onclick="toggleBtn(this)">Gallery & Museum</button>
+          <button class="toggle-btn" data-value="exhibition space" onclick="toggleBtn(this)">Exhibition Space</button>
+          <button class="toggle-btn" data-value="co-working & meeting space" onclick="toggleBtn(this)">Co-Working</button>
+          <button class="toggle-btn" data-value="outdoor venue" onclick="toggleBtn(this)">Outdoor Venue</button>
+          <button class="toggle-btn" data-value="theatre & cinema" onclick="toggleBtn(this)">Theatre & Cinema</button>
+          <button class="toggle-btn" data-value="private members club" onclick="toggleBtn(this)">Private Members Club</button>
+          <button class="toggle-btn" data-value="sports venue" onclick="toggleBtn(this)">Sports Venue</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- SECTION 3: DISPLAY -->
-<div class="section-header">
-  <span class="section-number">3</span>
-  <h2>Display options <span class="optional-badge">optional</span></h2>
 </div>
-<p class="section-desc">
-  Group venues together by city, area, or type. This adds a dot navigation on the right side with group labels. Useful when showing venues across multiple cities or types.
-</p>
-<div class="section-box">
-  <div class="field">
-    <label>Group By</label>
-    <div class="toggle-row" id="sortBy">
-      <button class="toggle-btn" data-value="" onclick="toggleSortBtn(this)">None</button>
-      <button class="toggle-btn" data-value="city" onclick="toggleSortBtn(this)">City</button>
-      <button class="toggle-btn" data-value="venue_type" onclick="toggleSortBtn(this)">Venue Type</button>
-      <button class="toggle-btn" data-value="area" onclick="toggleSortBtn(this)">Area</button>
-    </div>
-    <div class="tip" style="margin-top: 10px;">
-      <strong>When to use:</strong> "Group by City" is great when sharing venues across multiple cities (e.g. London + Manchester). "Group by Area" works well within a single city to organise by neighbourhood. "Group by Venue Type" helps when showing a mix of hotels, restaurants, etc.
-    </div>
-  </div>
-</div>
-
-<hr class="divider">
 
 <!-- OUTPUT -->
 <div class="output-section">
@@ -432,8 +494,164 @@
 <script>
   var BASE = 'https://content.hirespace.com/new-venues';
 
-  function getSelectedValues(selectEl) {
-    return Array.from(selectEl.selectedOptions).map(function(o) { return o.value; });
+  // City data
+  var CITIES = [
+    { group: 'United Kingdom', cities: [
+      { label: 'London', value: 'london:united kingdom' },
+      { label: 'Manchester', value: 'manchester:united kingdom' },
+      { label: 'Birmingham', value: 'birmingham:united kingdom' },
+      { label: 'Edinburgh', value: 'edinburgh:united kingdom' },
+      { label: 'Glasgow', value: 'glasgow:united kingdom' },
+      { label: 'Leeds', value: 'leeds:united kingdom' },
+      { label: 'Bristol', value: 'bristol:united kingdom' },
+      { label: 'Liverpool', value: 'liverpool:united kingdom' },
+      { label: 'Oxford', value: 'oxford:united kingdom' },
+      { label: 'Cambridge', value: 'cambridge:united kingdom' },
+      { label: 'Belfast', value: 'belfast:united kingdom' },
+      { label: 'Brighton', value: 'brighton:united kingdom' },
+      { label: 'Cardiff', value: 'cardiff:united kingdom' },
+      { label: 'Nottingham', value: 'nottingham:united kingdom' },
+      { label: 'Sheffield', value: 'sheffield:united kingdom' },
+      { label: 'Bath', value: 'bath:united kingdom' },
+      { label: 'Norwich', value: 'norwich:united kingdom' },
+    ]},
+    { group: 'Europe', cities: [
+      { label: 'Paris', value: 'paris:france' },
+      { label: 'Amsterdam', value: 'amsterdam:netherlands' },
+      { label: 'Berlin', value: 'berlin:germany' },
+      { label: 'Munich', value: 'munich:germany' },
+      { label: 'Frankfurt', value: 'frankfurt:germany' },
+      { label: 'Barcelona', value: 'barcelona:spain' },
+      { label: 'Madrid', value: 'madrid:spain' },
+      { label: 'Milan', value: 'milan:italy' },
+      { label: 'Rome', value: 'rome:italy' },
+      { label: 'Dublin', value: 'dublin:ireland' },
+      { label: 'Lisbon', value: 'lisbon:portugal' },
+      { label: 'Copenhagen', value: 'copenhagen:denmark' },
+      { label: 'Stockholm', value: 'stockholm:sweden' },
+      { label: 'Vienna', value: 'vienna:austria' },
+      { label: 'Prague', value: 'prague:czech republic' },
+      { label: 'Brussels', value: 'brussels:belgium' },
+      { label: 'Zurich', value: 'zurich:switzerland' },
+    ]},
+    { group: 'Middle East', cities: [
+      { label: 'Dubai', value: 'dubai:united arab emirates' },
+      { label: 'Abu Dhabi', value: 'abu dhabi:united arab emirates' },
+      { label: 'Riyadh', value: 'riyadh:saudi arabia' },
+      { label: 'Doha', value: 'doha:qatar' },
+      { label: 'Istanbul', value: 'istanbul:turkey' },
+    ]},
+    { group: 'Asia Pacific', cities: [
+      { label: 'Singapore', value: 'singapore:singapore' },
+      { label: 'Sydney', value: 'sydney:australia' },
+      { label: 'Melbourne', value: 'melbourne:australia' },
+      { label: 'Tokyo', value: 'tokyo:japan' },
+      { label: 'Hong Kong', value: 'hong kong:china' },
+      { label: 'Bangkok', value: 'bangkok:thailand' },
+      { label: 'Mumbai', value: 'mumbai:india' },
+      { label: 'Seoul', value: 'seoul:south korea' },
+    ]},
+    { group: 'Americas', cities: [
+      { label: 'New York', value: 'new york:united states' },
+      { label: 'Los Angeles', value: 'los angeles:united states' },
+      { label: 'Chicago', value: 'chicago:united states' },
+      { label: 'San Francisco', value: 'san francisco:united states' },
+      { label: 'Miami', value: 'miami:united states' },
+      { label: 'Toronto', value: 'toronto:canada' },
+      { label: 'Vancouver', value: 'vancouver:canada' },
+    ]},
+    { group: 'Africa', cities: [
+      { label: 'Cape Town', value: 'cape town:south africa' },
+      { label: 'Johannesburg', value: 'johannesburg:south africa' },
+      { label: 'Nairobi', value: 'nairobi:kenya' },
+      { label: 'Marrakech', value: 'marrakech:morocco' },
+    ]},
+  ];
+
+  var selectedCities = [];
+
+  function initCityDropdown() {
+    var dropdown = document.getElementById('cityDropdown');
+    var html = '';
+    CITIES.forEach(function(group) {
+      html += '<div class="multiselect__group">' + group.group + '</div>';
+      group.cities.forEach(function(city) {
+        html += '<div class="multiselect__option" data-value="' + city.value + '" data-label="' + city.label + '" data-group="' + group.group + '" onclick="toggleCity(this)">';
+        html += '<div class="multiselect__check"></div>';
+        html += '<span>' + city.label + '</span>';
+        html += '</div>';
+      });
+    });
+    dropdown.innerHTML = html;
+  }
+
+  function openCityDropdown() {
+    document.getElementById('cityMultiselect').classList.add('multiselect--open');
+  }
+
+  function closeCityDropdown() {
+    setTimeout(function() {
+      document.getElementById('cityMultiselect').classList.remove('multiselect--open');
+      document.getElementById('citySearchInput').value = '';
+      filterCities('');
+    }, 200);
+  }
+
+  document.getElementById('citySearchInput').addEventListener('blur', closeCityDropdown);
+
+  function filterCities(query) {
+    var q = query.toLowerCase();
+    var options = document.querySelectorAll('#cityDropdown .multiselect__option');
+    var groups = document.querySelectorAll('#cityDropdown .multiselect__group');
+    var groupHasVisible = {};
+
+    options.forEach(function(opt) {
+      var label = opt.getAttribute('data-label').toLowerCase();
+      var group = opt.getAttribute('data-group');
+      var match = !q || label.indexOf(q) !== -1 || group.toLowerCase().indexOf(q) !== -1;
+      opt.classList.toggle('multiselect__option--hidden', !match);
+      if (match) groupHasVisible[group] = true;
+    });
+
+    groups.forEach(function(g) {
+      g.style.display = groupHasVisible[g.textContent] ? '' : 'none';
+    });
+  }
+
+  function toggleCity(el) {
+    var value = el.getAttribute('data-value');
+    var label = el.getAttribute('data-label');
+    var idx = selectedCities.findIndex(function(c) { return c.value === value; });
+
+    if (idx >= 0) {
+      selectedCities.splice(idx, 1);
+      el.classList.remove('multiselect__option--selected');
+    } else {
+      selectedCities.push({ value: value, label: label });
+      el.classList.add('multiselect__option--selected');
+    }
+
+    renderCityTags();
+    buildUrl();
+  }
+
+  function removeCity(value) {
+    selectedCities = selectedCities.filter(function(c) { return c.value !== value; });
+    var opt = document.querySelector('#cityDropdown .multiselect__option[data-value="' + value + '"]');
+    if (opt) opt.classList.remove('multiselect__option--selected');
+    renderCityTags();
+    buildUrl();
+  }
+
+  function renderCityTags() {
+    var container = document.getElementById('cityTags');
+    if (selectedCities.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+    container.innerHTML = selectedCities.map(function(c) {
+      return '<span class="multiselect__tag">' + c.label + ' <span class="multiselect__tag-remove" onmousedown="event.preventDefault();removeCity(\'' + c.value + '\')">&times;</span></span>';
+    }).join('');
   }
 
   function getActiveToggles(containerId) {
@@ -458,8 +676,9 @@
     var cid = document.getElementById('contactId').value.trim();
     if (cid) params.push('cid=' + encodeURIComponent(cid));
 
-    var cities = getSelectedValues(document.getElementById('citySelect'));
-    if (cities.length > 0) params.push('city=' + cities.map(function(c) { return encodeURIComponent(c); }).join(','));
+    if (selectedCities.length > 0) {
+      params.push('city=' + selectedCities.map(function(c) { return encodeURIComponent(c.value); }).join(','));
+    }
 
     var types = getActiveToggles('eventTypes');
     if (types.length > 0) params.push('type=' + types.map(function(t) { return encodeURIComponent(t); }).join(','));
@@ -470,7 +689,6 @@
     var sortBy = getActiveToggles('sortBy');
     if (sortBy.length > 0 && sortBy[0]) params.push('sortby=' + sortBy[0]);
 
-    // Display with highlighted params
     var displayHtml = 'https://content.hirespace.com/new-venues';
     if (params.length > 0) {
       displayHtml += '?<span class="param">' + params.join('</span>&<span class="param">') + '</span>';
@@ -485,8 +703,9 @@
     var params = [];
     var cid = document.getElementById('contactId').value.trim();
     if (cid) params.push('cid=' + encodeURIComponent(cid));
-    var cities = getSelectedValues(document.getElementById('citySelect'));
-    if (cities.length > 0) params.push('city=' + cities.map(function(c) { return encodeURIComponent(c); }).join(','));
+    if (selectedCities.length > 0) {
+      params.push('city=' + selectedCities.map(function(c) { return encodeURIComponent(c.value); }).join(','));
+    }
     var types = getActiveToggles('eventTypes');
     if (types.length > 0) params.push('type=' + types.map(function(t) { return encodeURIComponent(t); }).join(','));
     var venueTypes = getActiveToggles('venueTypes');
@@ -515,10 +734,15 @@
 
   function resetAll() {
     document.getElementById('contactId').value = '';
-    document.getElementById('citySelect').selectedIndex = -1;
+    selectedCities = [];
+    document.querySelectorAll('#cityDropdown .multiselect__option').forEach(function(o) { o.classList.remove('multiselect__option--selected'); });
+    renderCityTags();
     document.querySelectorAll('.toggle-btn').forEach(function(b) { b.classList.remove('active'); });
     buildUrl();
   }
+
+  // Init
+  initCityDropdown();
 </script>
 
 </body>
