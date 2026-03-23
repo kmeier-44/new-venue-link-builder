@@ -30,8 +30,54 @@
       margin-bottom: 24px;
     }
 
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .section-header h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #00A82C;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .section-desc {
+      font-size: 0.78rem;
+      color: #6b7280;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .section-box {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
     .field {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
     }
 
     label {
@@ -46,6 +92,17 @@
       font-size: 0.72rem;
       color: #9ca3af;
       margin-bottom: 4px;
+    }
+
+    .tip {
+      font-size: 0.72rem;
+      color: #00A82C;
+      background: rgba(0, 168, 44, 0.06);
+      border: 1px solid rgba(0, 168, 44, 0.15);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      line-height: 1.5;
     }
 
     input[type="text"],
@@ -83,12 +140,6 @@
       color: white;
     }
 
-    .multi-hint {
-      font-size: 0.68rem;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
     .divider {
       border: none;
       border-top: 1px solid #e5e7eb;
@@ -96,8 +147,8 @@
     }
 
     .output-section {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
+      background: #1a1a2e;
+      border: 1px solid #2d2d44;
       border-radius: 12px;
       padding: 16px;
       margin-top: 8px;
@@ -106,7 +157,7 @@
     .output-label {
       font-size: 0.75rem;
       font-weight: 600;
-      color: #6b7280;
+      color: rgba(255,255,255,0.5);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 8px;
@@ -115,10 +166,10 @@
     .url-display {
       font-family: 'SF Mono', 'Fira Code', monospace;
       font-size: 0.78rem;
-      color: #1a1a2e;
+      color: rgba(255,255,255,0.85);
       word-break: break-all;
-      background: #fff;
-      border: 1px solid #d1d5db;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 8px;
       padding: 10px 12px;
       min-height: 40px;
@@ -161,13 +212,13 @@
     }
 
     .btn-open {
-      background: #f3f4f6;
-      color: #374151;
-      border: 1px solid #d1d5db;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.15);
     }
 
     .btn-open:hover {
-      background: #e5e7eb;
+      background: rgba(255,255,255,0.15);
     }
 
     .btn-reset {
@@ -187,15 +238,15 @@
 
     .toggle-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
     .toggle-btn {
-      padding: 6px 12px;
+      padding: 5px 11px;
       border: 1px solid #d1d5db;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       cursor: pointer;
       background: #fff;
       color: #374151;
@@ -211,6 +262,13 @@
       color: #fff;
       border-color: #00A82C;
     }
+
+    .optional-badge {
+      font-size: 0.65rem;
+      color: #9ca3af;
+      font-weight: 400;
+      margin-left: 4px;
+    }
   </style>
 </head>
 <body>
@@ -218,121 +276,157 @@
 <h1>New Venue Openings Link Builder</h1>
 <p class="subtitle">Build a personalised or filtered link to share with contacts.</p>
 
-<div class="field">
-  <label for="contactId">Contact ID (for personalisation)</label>
-  <div class="helper">Find this in the HubSpot URL: /contact/<strong>12345</strong></div>
-  <input type="text" id="contactId" placeholder="e.g. 138785001" oninput="buildUrl()">
+<!-- SECTION 1: PERSONALISATION -->
+<div class="section-header">
+  <span class="section-number">1</span>
+  <h2>Personalise for a contact</h2>
+</div>
+<p class="section-desc">
+  Adding a contact ID personalises the page for that specific contact. It filters venues to their preferred cities and event types, and shows your name and meeting link on the CTA. <strong>This is the recommended approach for outreach emails.</strong>
+</p>
+<div class="section-box">
+  <div class="field">
+    <label for="contactId">HubSpot Contact ID</label>
+    <div class="helper">Find this in the HubSpot URL when viewing the contact: app.hubspot.com/contacts/.../contact/<strong>12345</strong></div>
+    <input type="text" id="contactId" placeholder="e.g. 138785001" oninput="buildUrl()">
+  </div>
+  <div class="tip">
+    <strong>Tip:</strong> If you add a Contact ID, you usually don't need to set any filters below — the page will automatically show venues matching the contact's preferences in HubSpot.
+  </div>
+</div>
+
+<!-- SECTION 2: FILTERS -->
+<div class="section-header">
+  <span class="section-number">2</span>
+  <h2>Filter venues <span class="optional-badge">optional</span></h2>
+</div>
+<p class="section-desc">
+  Use these to narrow the results. Filters <strong>override</strong> the contact's preferences if a Contact ID is set — so only add them if the contact asked about something specific (e.g. "show me new conference venues in Manchester").
+  Without a Contact ID, the page defaults to London.
+</p>
+<div class="section-box">
+  <div class="field">
+    <label for="citySelect">Cities</label>
+    <div class="helper">Hold Cmd/Ctrl to select multiple. Only venues in these cities will show.</div>
+    <select id="citySelect" multiple onchange="buildUrl()">
+      <optgroup label="United Kingdom">
+        <option value="london:united kingdom">London</option>
+        <option value="manchester:united kingdom">Manchester</option>
+        <option value="birmingham:united kingdom">Birmingham</option>
+        <option value="edinburgh:united kingdom">Edinburgh</option>
+        <option value="glasgow:united kingdom">Glasgow</option>
+        <option value="leeds:united kingdom">Leeds</option>
+        <option value="bristol:united kingdom">Bristol</option>
+        <option value="liverpool:united kingdom">Liverpool</option>
+        <option value="oxford:united kingdom">Oxford</option>
+        <option value="cambridge:united kingdom">Cambridge</option>
+        <option value="belfast:united kingdom">Belfast</option>
+        <option value="brighton:united kingdom">Brighton</option>
+        <option value="cardiff:united kingdom">Cardiff</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="paris:france">Paris</option>
+        <option value="amsterdam:netherlands">Amsterdam</option>
+        <option value="berlin:germany">Berlin</option>
+        <option value="munich:germany">Munich</option>
+        <option value="barcelona:spain">Barcelona</option>
+        <option value="madrid:spain">Madrid</option>
+        <option value="milan:italy">Milan</option>
+        <option value="dublin:ireland">Dublin</option>
+      </optgroup>
+      <optgroup label="Middle East">
+        <option value="dubai:united arab emirates">Dubai</option>
+        <option value="abu dhabi:united arab emirates">Abu Dhabi</option>
+        <option value="riyadh:saudi arabia">Riyadh</option>
+      </optgroup>
+      <optgroup label="Asia Pacific">
+        <option value="singapore:singapore">Singapore</option>
+        <option value="sydney:australia">Sydney</option>
+        <option value="melbourne:australia">Melbourne</option>
+      </optgroup>
+      <optgroup label="North America">
+        <option value="new york:united states">New York</option>
+        <option value="los angeles:united states">Los Angeles</option>
+        <option value="chicago:united states">Chicago</option>
+        <option value="san francisco:united states">San Francisco</option>
+        <option value="miami:united states">Miami</option>
+        <option value="toronto:canada">Toronto</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Event Type <span class="optional-badge">only show venues suited for these events</span></label>
+    <div class="toggle-row" id="eventTypes">
+      <button class="toggle-btn" data-value="conferences" onclick="toggleBtn(this)">Conferences</button>
+      <button class="toggle-btn" data-value="corporate parties" onclick="toggleBtn(this)">Corporate Parties</button>
+      <button class="toggle-btn" data-value="private dining" onclick="toggleBtn(this)">Private Dining</button>
+      <button class="toggle-btn" data-value="product launches" onclick="toggleBtn(this)">Product Launches</button>
+      <button class="toggle-btn" data-value="team building" onclick="toggleBtn(this)">Team Building</button>
+      <button class="toggle-btn" data-value="christmas parties" onclick="toggleBtn(this)">Christmas Parties</button>
+      <button class="toggle-btn" data-value="summer parties" onclick="toggleBtn(this)">Summer Parties</button>
+      <button class="toggle-btn" data-value="awards ceremonies" onclick="toggleBtn(this)">Awards Ceremonies</button>
+      <button class="toggle-btn" data-value="networking events" onclick="toggleBtn(this)">Networking Events</button>
+      <button class="toggle-btn" data-value="workshops" onclick="toggleBtn(this)">Workshops</button>
+      <button class="toggle-btn" data-value="away days" onclick="toggleBtn(this)">Away Days</button>
+      <button class="toggle-btn" data-value="meetings" onclick="toggleBtn(this)">Meetings</button>
+      <button class="toggle-btn" data-value="exhibitions" onclick="toggleBtn(this)">Exhibitions</button>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Venue Type <span class="optional-badge">only show these types of venues</span></label>
+    <div class="toggle-row" id="venueTypes">
+      <button class="toggle-btn" data-value="hotel" onclick="toggleBtn(this)">Hotel</button>
+      <button class="toggle-btn" data-value="restaurant & bar" onclick="toggleBtn(this)">Restaurant & Bar</button>
+      <button class="toggle-btn" data-value="unique venue" onclick="toggleBtn(this)">Unique Venue</button>
+      <button class="toggle-btn" data-value="conference centre" onclick="toggleBtn(this)">Conference Centre</button>
+      <button class="toggle-btn" data-value="rooftop venue" onclick="toggleBtn(this)">Rooftop Venue</button>
+      <button class="toggle-btn" data-value="gallery & museum" onclick="toggleBtn(this)">Gallery & Museum</button>
+      <button class="toggle-btn" data-value="exhibition space" onclick="toggleBtn(this)">Exhibition Space</button>
+      <button class="toggle-btn" data-value="co-working & meeting space" onclick="toggleBtn(this)">Co-Working</button>
+      <button class="toggle-btn" data-value="outdoor venue" onclick="toggleBtn(this)">Outdoor Venue</button>
+      <button class="toggle-btn" data-value="theatre & cinema" onclick="toggleBtn(this)">Theatre & Cinema</button>
+      <button class="toggle-btn" data-value="private members club" onclick="toggleBtn(this)">Private Members Club</button>
+      <button class="toggle-btn" data-value="sports venue" onclick="toggleBtn(this)">Sports Venue</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: DISPLAY -->
+<div class="section-header">
+  <span class="section-number">3</span>
+  <h2>Display options <span class="optional-badge">optional</span></h2>
+</div>
+<p class="section-desc">
+  Group venues together by city, area, or type. This adds a dot navigation on the right side with group labels. Useful when showing venues across multiple cities or types.
+</p>
+<div class="section-box">
+  <div class="field">
+    <label>Group By</label>
+    <div class="toggle-row" id="sortBy">
+      <button class="toggle-btn" data-value="" onclick="toggleSortBtn(this)">None</button>
+      <button class="toggle-btn" data-value="city" onclick="toggleSortBtn(this)">City</button>
+      <button class="toggle-btn" data-value="venue_type" onclick="toggleSortBtn(this)">Venue Type</button>
+      <button class="toggle-btn" data-value="area" onclick="toggleSortBtn(this)">Area</button>
+    </div>
+    <div class="tip" style="margin-top: 10px;">
+      <strong>When to use:</strong> "Group by City" is great when sharing venues across multiple cities (e.g. London + Manchester). "Group by Area" works well within a single city to organise by neighbourhood. "Group by Venue Type" helps when showing a mix of hotels, restaurants, etc.
+    </div>
+  </div>
 </div>
 
 <hr class="divider">
 
-<div class="field">
-  <label for="citySelect">Cities</label>
-  <div class="helper">Hold Cmd/Ctrl to select multiple</div>
-  <select id="citySelect" multiple onchange="buildUrl()">
-    <optgroup label="United Kingdom">
-      <option value="london:united kingdom">London</option>
-      <option value="manchester:united kingdom">Manchester</option>
-      <option value="birmingham:united kingdom">Birmingham</option>
-      <option value="edinburgh:united kingdom">Edinburgh</option>
-      <option value="glasgow:united kingdom">Glasgow</option>
-      <option value="leeds:united kingdom">Leeds</option>
-      <option value="bristol:united kingdom">Bristol</option>
-      <option value="liverpool:united kingdom">Liverpool</option>
-      <option value="oxford:united kingdom">Oxford</option>
-      <option value="cambridge:united kingdom">Cambridge</option>
-      <option value="belfast:united kingdom">Belfast</option>
-      <option value="brighton:united kingdom">Brighton</option>
-      <option value="cardiff:united kingdom">Cardiff</option>
-    </optgroup>
-    <optgroup label="Europe">
-      <option value="paris:france">Paris</option>
-      <option value="amsterdam:netherlands">Amsterdam</option>
-      <option value="berlin:germany">Berlin</option>
-      <option value="munich:germany">Munich</option>
-      <option value="barcelona:spain">Barcelona</option>
-      <option value="madrid:spain">Madrid</option>
-      <option value="milan:italy">Milan</option>
-      <option value="dublin:ireland">Dublin</option>
-    </optgroup>
-    <optgroup label="Middle East">
-      <option value="dubai:united arab emirates">Dubai</option>
-      <option value="abu dhabi:united arab emirates">Abu Dhabi</option>
-      <option value="riyadh:saudi arabia">Riyadh</option>
-    </optgroup>
-    <optgroup label="Asia Pacific">
-      <option value="singapore:singapore">Singapore</option>
-      <option value="sydney:australia">Sydney</option>
-      <option value="melbourne:australia">Melbourne</option>
-    </optgroup>
-    <optgroup label="North America">
-      <option value="new york:united states">New York</option>
-      <option value="los angeles:united states">Los Angeles</option>
-      <option value="chicago:united states">Chicago</option>
-      <option value="san francisco:united states">San Francisco</option>
-      <option value="miami:united states">Miami</option>
-      <option value="toronto:canada">Toronto</option>
-    </optgroup>
-  </select>
-</div>
-
-<div class="field">
-  <label>Event Type</label>
-  <div class="toggle-row" id="eventTypes">
-    <button class="toggle-btn" data-value="conferences" onclick="toggleBtn(this)">Conferences</button>
-    <button class="toggle-btn" data-value="corporate parties" onclick="toggleBtn(this)">Corporate Parties</button>
-    <button class="toggle-btn" data-value="private dining" onclick="toggleBtn(this)">Private Dining</button>
-    <button class="toggle-btn" data-value="product launches" onclick="toggleBtn(this)">Product Launches</button>
-    <button class="toggle-btn" data-value="team building" onclick="toggleBtn(this)">Team Building</button>
-    <button class="toggle-btn" data-value="christmas parties" onclick="toggleBtn(this)">Christmas Parties</button>
-    <button class="toggle-btn" data-value="summer parties" onclick="toggleBtn(this)">Summer Parties</button>
-    <button class="toggle-btn" data-value="awards ceremonies" onclick="toggleBtn(this)">Awards Ceremonies</button>
-    <button class="toggle-btn" data-value="networking events" onclick="toggleBtn(this)">Networking Events</button>
-    <button class="toggle-btn" data-value="workshops" onclick="toggleBtn(this)">Workshops</button>
-    <button class="toggle-btn" data-value="away days" onclick="toggleBtn(this)">Away Days</button>
-    <button class="toggle-btn" data-value="meetings" onclick="toggleBtn(this)">Meetings</button>
-    <button class="toggle-btn" data-value="exhibitions" onclick="toggleBtn(this)">Exhibitions</button>
-  </div>
-</div>
-
-<div class="field">
-  <label>Venue Type</label>
-  <div class="toggle-row" id="venueTypes">
-    <button class="toggle-btn" data-value="hotel" onclick="toggleBtn(this)">Hotel</button>
-    <button class="toggle-btn" data-value="restaurant & bar" onclick="toggleBtn(this)">Restaurant & Bar</button>
-    <button class="toggle-btn" data-value="unique venue" onclick="toggleBtn(this)">Unique Venue</button>
-    <button class="toggle-btn" data-value="conference centre" onclick="toggleBtn(this)">Conference Centre</button>
-    <button class="toggle-btn" data-value="rooftop venue" onclick="toggleBtn(this)">Rooftop Venue</button>
-    <button class="toggle-btn" data-value="gallery & museum" onclick="toggleBtn(this)">Gallery & Museum</button>
-    <button class="toggle-btn" data-value="exhibition space" onclick="toggleBtn(this)">Exhibition Space</button>
-    <button class="toggle-btn" data-value="co-working & meeting space" onclick="toggleBtn(this)">Co-Working</button>
-    <button class="toggle-btn" data-value="outdoor venue" onclick="toggleBtn(this)">Outdoor Venue</button>
-    <button class="toggle-btn" data-value="theatre & cinema" onclick="toggleBtn(this)">Theatre & Cinema</button>
-    <button class="toggle-btn" data-value="private members club" onclick="toggleBtn(this)">Private Members Club</button>
-    <button class="toggle-btn" data-value="sports venue" onclick="toggleBtn(this)">Sports Venue</button>
-  </div>
-</div>
-
-<div class="field">
-  <label>Group By</label>
-  <div class="toggle-row" id="sortBy">
-    <button class="toggle-btn" data-value="" onclick="toggleSortBtn(this)">None</button>
-    <button class="toggle-btn" data-value="city" onclick="toggleSortBtn(this)">City</button>
-    <button class="toggle-btn" data-value="venue_type" onclick="toggleSortBtn(this)">Venue Type</button>
-    <button class="toggle-btn" data-value="area" onclick="toggleSortBtn(this)">Area</button>
-  </div>
-</div>
-
-<hr class="divider">
-
+<!-- OUTPUT -->
 <div class="output-section">
-  <div class="output-label">Generated Link</div>
+  <div class="output-label">Your generated link</div>
   <div class="url-display" id="urlDisplay">https://content.hirespace.com/new-venues</div>
   <div class="btn-row">
     <button class="btn btn-copy" id="copyBtn" onclick="copyUrl()">Copy Link</button>
-    <button class="btn btn-open" onclick="openUrl()">Open in New Tab</button>
+    <button class="btn btn-open" onclick="openUrl()">Preview in New Tab</button>
   </div>
-  <button class="btn-reset" onclick="resetAll()">Reset all filters</button>
+  <button class="btn-reset" onclick="resetAll()">Reset all</button>
 </div>
 
 <script>
@@ -360,7 +454,6 @@
 
   function buildUrl() {
     var params = [];
-    var display = BASE;
 
     var cid = document.getElementById('contactId').value.trim();
     if (cid) params.push('cid=' + encodeURIComponent(cid));
@@ -376,9 +469,6 @@
 
     var sortBy = getActiveToggles('sortBy');
     if (sortBy.length > 0 && sortBy[0]) params.push('sortby=' + sortBy[0]);
-
-    var url = BASE;
-    if (params.length > 0) url += '?' + params.join('&');
 
     // Display with highlighted params
     var displayHtml = 'https://content.hirespace.com/new-venues';
