@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Venue Openings — Link Builder</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fff;
+      color: #1a1a2e;
+      padding: 32px 24px;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #1a1a2e;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+
+    .helper {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #1a1a2e;
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #00A82C;
+      box-shadow: 0 0 0 3px rgba(0, 168, 44, 0.1);
+    }
+
+    select[multiple] {
+      height: auto;
+      min-height: 80px;
+      padding: 4px;
+    }
+
+    select[multiple] option {
+      padding: 6px 8px;
+      border-radius: 4px;
+    }
+
+    select[multiple] option:checked {
+      background: #00A82C;
+      color: white;
+    }
+
+    .multi-hint {
+      font-size: 0.68rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 24px 0;
+    }
+
+    .output-section {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 8px;
+    }
+
+    .output-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .url-display {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #1a1a2e;
+      word-break: break-all;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-height: 40px;
+      line-height: 1.6;
+    }
+
+    .url-display .param {
+      color: #00A82C;
+      font-weight: 600;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy {
+      background: #00A82C;
+      color: #fff;
+    }
+
+    .btn-copy:hover {
+      background: #008c24;
+    }
+
+    .btn-copy.copied {
+      background: #065f46;
+    }
+
+    .btn-open {
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-open:hover {
+      background: #e5e7eb;
+    }
+
+    .btn-reset {
+      background: none;
+      color: #9ca3af;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      padding: 4px 0;
+      margin-top: 8px;
+    }
+
+    .btn-reset:hover {
+      color: #6b7280;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      padding: 6px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      background: #fff;
+      color: #374151;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn:hover {
+      border-color: #00A82C;
+    }
+
+    .toggle-btn.active {
+      background: #00A82C;
+      color: #fff;
+      border-color: #00A82C;
+    }
+  </style>
+</head>
+<body>
+
+<h1>New Venue Openings Link Builder</h1>
+<p class="subtitle">Build a personalised or filtered link to share with contacts.</p>
+
+<div class="field">
+  <label for="contactId">Contact ID (for personalisation)</label>
+  <div class="helper">Find this in the HubSpot URL: /contact/<strong>12345</strong></div>
+  <input type="text" id="contactId" placeholder="e.g. 138785001" oninput="buildUrl()">
+</div>
+
+<hr class="divider">
+
+<div class="field">
+  <label for="citySelect">Cities</label>
+  <div class="helper">Hold Cmd/Ctrl to select multiple</div>
+  <select id="citySelect" multiple onchange="buildUrl()">
+    <optgroup label="United Kingdom">
+      <option value="london:united kingdom">London</option>
+      <option value="manchester:united kingdom">Manchester</option>
+      <option value="birmingham:united kingdom">Birmingham</option>
+      <option value="edinburgh:united kingdom">Edinburgh</option>
+      <option value="glasgow:united kingdom">Glasgow</option>
+      <option value="leeds:united kingdom">Leeds</option>
+      <option value="bristol:united kingdom">Bristol</option>
+      <option value="liverpool:united kingdom">Liverpool</option>
+      <option value="oxford:united kingdom">Oxford</option>
+      <option value="cambridge:united kingdom">Cambridge</option>
+      <option value="belfast:united kingdom">Belfast</option>
+      <option value="brighton:united kingdom">Brighton</option>
+      <option value="cardiff:united kingdom">Cardiff</option>
+    </optgroup>
+    <optgroup label="Europe">
+      <option value="paris:france">Paris</option>
+      <option value="amsterdam:netherlands">Amsterdam</option>
+      <option value="berlin:germany">Berlin</option>
+      <option value="munich:germany">Munich</option>
+      <option value="barcelona:spain">Barcelona</option>
+      <option value="madrid:spain">Madrid</option>
+      <option value="milan:italy">Milan</option>
+      <option value="dublin:ireland">Dublin</option>
+    </optgroup>
+    <optgroup label="Middle East">
+      <option value="dubai:united arab emirates">Dubai</option>
+      <option value="abu dhabi:united arab emirates">Abu Dhabi</option>
+      <option value="riyadh:saudi arabia">Riyadh</option>
+    </optgroup>
+    <optgroup label="Asia Pacific">
+      <option value="singapore:singapore">Singapore</option>
+      <option value="sydney:australia">Sydney</option>
+      <option value="melbourne:australia">Melbourne</option>
+    </optgroup>
+    <optgroup label="North America">
+      <option value="new york:united states">New York</option>
+      <option value="los angeles:united states">Los Angeles</option>
+      <option value="chicago:united states">Chicago</option>
+      <option value="san francisco:united states">San Francisco</option>
+      <option value="miami:united states">Miami</option>
+      <option value="toronto:canada">Toronto</option>
+    </optgroup>
+  </select>
+</div>
+
+<div class="field">
+  <label>Event Type</label>
+  <div class="toggle-row" id="eventTypes">
+    <button class="toggle-btn" data-value="conferences" onclick="toggleBtn(this)">Conferences</button>
+    <button class="toggle-btn" data-value="corporate parties" onclick="toggleBtn(this)">Corporate Parties</button>
+    <button class="toggle-btn" data-value="private dining" onclick="toggleBtn(this)">Private Dining</button>
+    <button class="toggle-btn" data-value="product launches" onclick="toggleBtn(this)">Product Launches</button>
+    <button class="toggle-btn" data-value="team building" onclick="toggleBtn(this)">Team Building</button>
+    <button class="toggle-btn" data-value="christmas parties" onclick="toggleBtn(this)">Christmas Parties</button>
+    <button class="toggle-btn" data-value="summer parties" onclick="toggleBtn(this)">Summer Parties</button>
+    <button class="toggle-btn" data-value="awards ceremonies" onclick="toggleBtn(this)">Awards Ceremonies</button>
+    <button class="toggle-btn" data-value="networking events" onclick="toggleBtn(this)">Networking Events</button>
+    <button class="toggle-btn" data-value="workshops" onclick="toggleBtn(this)">Workshops</button>
+    <button class="toggle-btn" data-value="away days" onclick="toggleBtn(this)">Away Days</button>
+    <button class="toggle-btn" data-value="meetings" onclick="toggleBtn(this)">Meetings</button>
+    <button class="toggle-btn" data-value="exhibitions" onclick="toggleBtn(this)">Exhibitions</button>
+  </div>
+</div>
+
+<div class="field">
+  <label>Venue Type</label>
+  <div class="toggle-row" id="venueTypes">
+    <button class="toggle-btn" data-value="hotel" onclick="toggleBtn(this)">Hotel</button>
+    <button class="toggle-btn" data-value="restaurant & bar" onclick="toggleBtn(this)">Restaurant & Bar</button>
+    <button class="toggle-btn" data-value="unique venue" onclick="toggleBtn(this)">Unique Venue</button>
+    <button class="toggle-btn" data-value="conference centre" onclick="toggleBtn(this)">Conference Centre</button>
+    <button class="toggle-btn" data-value="rooftop venue" onclick="toggleBtn(this)">Rooftop Venue</button>
+    <button class="toggle-btn" data-value="gallery & museum" onclick="toggleBtn(this)">Gallery & Museum</button>
+    <button class="toggle-btn" data-value="exhibition space" onclick="toggleBtn(this)">Exhibition Space</button>
+    <button class="toggle-btn" data-value="co-working & meeting space" onclick="toggleBtn(this)">Co-Working</button>
+    <button class="toggle-btn" data-value="outdoor venue" onclick="toggleBtn(this)">Outdoor Venue</button>
+    <button class="toggle-btn" data-value="theatre & cinema" onclick="toggleBtn(this)">Theatre & Cinema</button>
+    <button class="toggle-btn" data-value="private members club" onclick="toggleBtn(this)">Private Members Club</button>
+    <button class="toggle-btn" data-value="sports venue" onclick="toggleBtn(this)">Sports Venue</button>
+  </div>
+</div>
+
+<div class="field">
+  <label>Group By</label>
+  <div class="toggle-row" id="sortBy">
+    <button class="toggle-btn" data-value="" onclick="toggleSortBtn(this)">None</button>
+    <button class="toggle-btn" data-value="city" onclick="toggleSortBtn(this)">City</button>
+    <button class="toggle-btn" data-value="venue_type" onclick="toggleSortBtn(this)">Venue Type</button>
+    <button class="toggle-btn" data-value="area" onclick="toggleSortBtn(this)">Area</button>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="output-section">
+  <div class="output-label">Generated Link</div>
+  <div class="url-display" id="urlDisplay">https://content.hirespace.com/new-venues</div>
+  <div class="btn-row">
+    <button class="btn btn-copy" id="copyBtn" onclick="copyUrl()">Copy Link</button>
+    <button class="btn btn-open" onclick="openUrl()">Open in New Tab</button>
+  </div>
+  <button class="btn-reset" onclick="resetAll()">Reset all filters</button>
+</div>
+
+<script>
+  var BASE = 'https://content.hirespace.com/new-venues';
+
+  function getSelectedValues(selectEl) {
+    return Array.from(selectEl.selectedOptions).map(function(o) { return o.value; });
+  }
+
+  function getActiveToggles(containerId) {
+    var btns = document.querySelectorAll('#' + containerId + ' .toggle-btn.active');
+    return Array.from(btns).map(function(b) { return b.getAttribute('data-value'); }).filter(Boolean);
+  }
+
+  function toggleBtn(el) {
+    el.classList.toggle('active');
+    buildUrl();
+  }
+
+  function toggleSortBtn(el) {
+    document.querySelectorAll('#sortBy .toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+    if (el.getAttribute('data-value')) el.classList.add('active');
+    buildUrl();
+  }
+
+  function buildUrl() {
+    var params = [];
+    var display = BASE;
+
+    var cid = document.getElementById('contactId').value.trim();
+    if (cid) params.push('cid=' + encodeURIComponent(cid));
+
+    var cities = getSelectedValues(document.getElementById('citySelect'));
+    if (cities.length > 0) params.push('city=' + cities.map(function(c) { return encodeURIComponent(c); }).join(','));
+
+    var types = getActiveToggles('eventTypes');
+    if (types.length > 0) params.push('type=' + types.map(function(t) { return encodeURIComponent(t); }).join(','));
+
+    var venueTypes = getActiveToggles('venueTypes');
+    if (venueTypes.length > 0) params.push('venue_type=' + venueTypes.map(function(v) { return encodeURIComponent(v); }).join(','));
+
+    var sortBy = getActiveToggles('sortBy');
+    if (sortBy.length > 0 && sortBy[0]) params.push('sortby=' + sortBy[0]);
+
+    var url = BASE;
+    if (params.length > 0) url += '?' + params.join('&');
+
+    // Display with highlighted params
+    var displayHtml = 'https://content.hirespace.com/new-venues';
+    if (params.length > 0) {
+      displayHtml += '?<span class="param">' + params.join('</span>&<span class="param">') + '</span>';
+    }
+
+    document.getElementById('urlDisplay').innerHTML = displayHtml;
+    document.getElementById('copyBtn').textContent = 'Copy Link';
+    document.getElementById('copyBtn').classList.remove('copied');
+  }
+
+  function getPlainUrl() {
+    var params = [];
+    var cid = document.getElementById('contactId').value.trim();
+    if (cid) params.push('cid=' + encodeURIComponent(cid));
+    var cities = getSelectedValues(document.getElementById('citySelect'));
+    if (cities.length > 0) params.push('city=' + cities.map(function(c) { return encodeURIComponent(c); }).join(','));
+    var types = getActiveToggles('eventTypes');
+    if (types.length > 0) params.push('type=' + types.map(function(t) { return encodeURIComponent(t); }).join(','));
+    var venueTypes = getActiveToggles('venueTypes');
+    if (venueTypes.length > 0) params.push('venue_type=' + venueTypes.map(function(v) { return encodeURIComponent(v); }).join(','));
+    var sortBy = getActiveToggles('sortBy');
+    if (sortBy.length > 0 && sortBy[0]) params.push('sortby=' + sortBy[0]);
+    return BASE + (params.length > 0 ? '?' + params.join('&') : '');
+  }
+
+  function copyUrl() {
+    var url = getPlainUrl();
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'Copy Link';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  function openUrl() {
+    window.open(getPlainUrl(), '_blank');
+  }
+
+  function resetAll() {
+    document.getElementById('contactId').value = '';
+    document.getElementById('citySelect').selectedIndex = -1;
+    document.querySelectorAll('.toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+    buildUrl();
+  }
+</script>
+
+</body>
+</html>
