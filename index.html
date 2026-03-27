@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Venue Openings — Link Builder</title>
+  <title>Value-Add Content - Link Builder</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -396,12 +396,72 @@
       font-weight: 400;
       margin-left: 3px;
     }
+
+    /* Tab navigation */
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .tab-btn {
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #9ca3af;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: #374151;
+    }
+    .tab-btn.active {
+      color: #00A82C;
+      border-bottom-color: #00A82C;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .tool-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tool-badge--venues {
+      background: rgba(0, 168, 44, 0.1);
+      color: #00A82C;
+    }
+    .tool-badge--data {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
   </style>
 </head>
 <body>
 
-<h1>New Venue Openings Link Builder</h1>
-<p class="subtitle">Build a personalised or filtered link to share with contacts.</p>
+<h1>Value-Add Content - Link Builder</h1>
+<p class="subtitle">Build personalised links for outreach tools.</p>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('venues')">New Venue Openings <span class="tool-badge tool-badge--venues">Venues</span></button>
+  <button class="tab-btn" onclick="switchTab('data')">Benchmarking Data Insights <span class="tool-badge tool-badge--data">Data</span></button>
+</div>
+
+<!-- ============ TAB 1: NEW VENUE OPENINGS ============ -->
+<div class="tab-content active" id="tab-venues">
 
 <div class="two-col">
 
@@ -486,6 +546,25 @@
 
 </div>
 
+</div><!-- /tab-venues -->
+
+<!-- ============ TAB 2: DATA INSIGHTS ============ -->
+<div class="tab-content" id="tab-data">
+
+<div class="section-box" style="max-width: 480px;">
+  <div class="col-header"><h2>Personalisation</h2></div>
+  <div class="col-desc" style="margin-top: 4px;">Add a HubSpot Contact ID to personalise the report with the contact's industry benchmarks, event type preferences and tailored insights.</div>
+
+  <div class="field" style="margin-top: 12px;">
+    <label for="dataContactId">HubSpot Contact ID</label>
+    <div class="helper">From the URL: .../record/0-1/<strong>138785001</strong></div>
+    <input type="text" id="dataContactId" placeholder="e.g. 138785001" oninput="buildDataUrl()">
+    <div class="tip"><strong>Tip:</strong> Without a Contact ID, the report shows general market-wide benchmarks. With one, it adds personalised industry comparisons, event type trends and tailored takeaways.</div>
+  </div>
+</div>
+
+</div><!-- /tab-data -->
+
 <!-- OUTPUT -->
 <div class="output-section">
   <div class="output-label">Your generated link</div>
@@ -498,7 +577,36 @@
 </div>
 
 <script>
-  var BASE = 'https://content.hirespace.com/new-venues';
+  var BASE_VENUES = 'https://content.hirespace.com/new-venues';
+  var BASE_DATA = 'https://kmeier-44.github.io/corporate-events-trends/organisers.html';
+  var activeTab = 'venues';
+
+  function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+    document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (tab === 'venues') { buildUrl(); } else { buildDataUrl(); }
+  }
+
+  function buildDataUrl() {
+    var cid = document.getElementById('dataContactId').value.trim();
+    var displayHtml = BASE_DATA;
+    if (cid) {
+      displayHtml += '?<span class="param">cid=' + encodeURIComponent(cid) + '</span>';
+    }
+    document.getElementById('urlDisplay').innerHTML = displayHtml;
+    document.getElementById('copyBtn').textContent = 'Copy Link';
+    document.getElementById('copyBtn').classList.remove('copied');
+  }
+
+  function getPlainDataUrl() {
+    var cid = document.getElementById('dataContactId').value.trim();
+    return BASE_DATA + (cid ? '?cid=' + encodeURIComponent(cid) : '');
+  }
+
+  var BASE = BASE_VENUES;
 
   // City data
   var CITIES = [
@@ -699,7 +807,7 @@
     var sortBy = getActiveToggles('sortBy');
     if (sortBy.length > 0 && sortBy[0]) params.push('sortby=' + sortBy[0]);
 
-    var displayHtml = 'https://content.hirespace.com/new-venues';
+    var displayHtml = BASE_VENUES;
     if (params.length > 0) {
       displayHtml += '?<span class="param">' + params.join('</span>&<span class="param">') + '</span>';
     }
@@ -726,7 +834,7 @@
   }
 
   function copyUrl() {
-    var url = getPlainUrl();
+    var url = activeTab === 'data' ? getPlainDataUrl() : getPlainUrl();
     navigator.clipboard.writeText(url).then(function() {
       var btn = document.getElementById('copyBtn');
       btn.textContent = 'Copied!';
@@ -739,16 +847,18 @@
   }
 
   function openUrl() {
-    window.open(getPlainUrl(), '_blank');
+    var url = activeTab === 'data' ? getPlainDataUrl() : getPlainUrl();
+    window.open(url, '_blank');
   }
 
   function resetAll() {
     document.getElementById('contactId').value = '';
+    document.getElementById('dataContactId').value = '';
     selectedCities = [];
     document.querySelectorAll('#cityDropdown .multiselect__option').forEach(function(o) { o.classList.remove('multiselect__option--selected'); });
     renderCityTags();
     document.querySelectorAll('.toggle-btn').forEach(function(b) { b.classList.remove('active'); });
-    buildUrl();
+    if (activeTab === 'data') { buildDataUrl(); } else { buildUrl(); }
   }
 
   // Init
